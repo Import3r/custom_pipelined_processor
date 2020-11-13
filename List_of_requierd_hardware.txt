@@ -1,0 +1,32 @@
+1- ALU
+	a. 32-bit Adder
+	b. And
+	c. nor
+	d. or
+	e. comparator ?? (or use if statement)
+	f. Shift left/right module
+		*inputs: R[rt], shamt, left/right
+		* output: R[rd]
+	g. Subtract
+3- Sign-extension module
+4- instruction memory (uses 14-bit from 32-bit address)
+5- Registers file
+6- Data memory
+7- Stages registers
+8- Muxes
+9- PC module (32-bit addresses)
+10- Control unit
+11- ALU control
+----------------------
+Plan:
+Step #1 deadline[Tuesday 17/11]:
+	To draw diagram till slide 66 [Amer]
+	To bulid ALU sub-modules, muxes and sign-extension module [Hamza]
+	Ask Eng. Remah [Hamza]
+Step #2 (After answering questions) deadline[Friday 20/11]:
+	PC + instruction memory [including testing]
+	Registers file
+----------------------
+Questions:
+- What is the maxiumm level of allowed abstraction (using premitive gates or sturctred approch)?
+- Allowed use of software in place of hardware (if, for loop, etc....)?
