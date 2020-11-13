@@ -1,1 +1,8 @@
-Hello world!
+def hello_printer():
+	pass
+
+
+def hi_printer():
+	pass
+
+
