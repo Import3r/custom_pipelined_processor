@@ -1,5 +1,10 @@
 def hello_printer():
-	pass
+	print("hello")
+
+
+
+
+
 
 
 def hi_printer():
