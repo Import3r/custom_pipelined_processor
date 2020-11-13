@@ -2,7 +2,9 @@ def hello_printer():
 	pass
 
 
+
 def hi_printer():
-	pass
-
-
+	t=["H","I","!"]
+	for letter in t:
+		print(letter)
+	print("Done!!!!")
