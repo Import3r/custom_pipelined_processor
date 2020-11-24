@@ -20,7 +20,6 @@
 ----------------------
 Plan:
 Step #1 deadline[Tuesday 17/11]:
-	To draw diagram till slide 66 [Amer]
 	To bulid ALU sub-modules, muxes and sign-extension module [Hamza]
 	Ask Eng. Remah [Hamza]
 Step #2 (After answering questions) deadline[Friday 20/11]:
@@ -29,4 +28,8 @@ Step #2 (After answering questions) deadline[Friday 20/11]:
 ----------------------
 Questions:
 - What is the maxiumm level of allowed abstraction (using premitive gates or sturctred approch)?
-- Allowed use of software in place of hardware (if, for loop, etc....)?
+- Allowed use of software in place of hardware (if, for loop, etc....) [show her the code]?
+- Handling multiple instructions using the same hardware ex.(Add,Addi,Addiu)
+- Handling and(and vs. &) operation for 32-bit operands (handle bit by bit or use higher level expertion)[also for or and nor].
+
+*Adders [diff sizes(4/8/16/32)]
