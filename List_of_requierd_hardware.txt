@@ -18,18 +18,6 @@
 10- Control unit
 11- ALU control
 ----------------------
-Plan:
-Step #1 deadline[Tuesday 17/11]:
-	To bulid ALU sub-modules, muxes and sign-extension module [Hamza]
-	Ask Eng. Remah [Hamza]
-Step #2 (After answering questions) deadline[Friday 20/11]:
-	PC + instruction memory [including testing]
-	Registers file
-----------------------
-Questions:
-- What is the maxiumm level of allowed abstraction (using premitive gates or sturctred approch)?
-- Allowed use of software in place of hardware (if, for loop, etc....) [show her the code]?
-- Handling multiple instructions using the same hardware ex.(Add,Addi,Addiu)
-- Handling and(and vs. &) operation for 32-bit operands (handle bit by bit or use higher level expertion)[also for or and nor].
-
-*Adders [diff sizes(4/8/16/32)]
+misc:
+	add: 000011 01010 01011 01001 00000 100000 [D4B4820]
+	sub: 000011 01010 01011 01001 00000 100100 [D4B4824]

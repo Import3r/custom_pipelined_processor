@@ -1,0 +1,13 @@
+module testALU();
+reg [31:0] inst,op1,op2;
+wire [31:0] result;
+
+initial begin
+op1<='h13; op2<='h2F; inst<=32'b00001101010010110100100000010100;
+#25 op1<='d5; op2<='d15; inst<=32'b00001101010010110100100000010100;
+#25 op1<='b1001; op2<='b0001; inst<=32'b00001101010010110100100000010101;
+#25 $finish;
+end
+
+ALU a1(inst,op1,op2,result);
+endmodule
