@@ -1,0 +1,12 @@
+module test_reg_file();
+reg [4:0] read_reg1,read_reg2;
+wire [31:0] data_out1,data_out2;
+
+initial begin
+read_reg1<=32'd8; read_reg2<=32'd9;
+#25 read_reg1<=32'd3; read_reg2<=32'd0;
+#25 $finish;
+end
+
+RegisterFile r1(read_reg1, read_reg2, data_out1, data_out2);
+endmodule
