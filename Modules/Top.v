@@ -16,16 +16,16 @@ reg [4:0] read_reg1, read_reg2, write_reg;
 reg [31:0] write_data;
 wire [31:0] data_out1, data_out2;
 wire [4:0] rs, rt, rd;
+wire [4:0] shamt;
 wire [31:0] alu_result;
-instructionMemory i1(instruction, PC);
-assign rs = instruction[25:21];
-assign rt = instruction[20:16];
-assign rd = instruction[15:11];
+wire [5:0] opcode, funct;
+wire [15:0] immediate;
+wire [25:0] address;
 wire clk;
 clock c1(clk);
+instructionMemory i1(instruction, PC);
+inst_decoding i2(clk,instruction, opcode, rs, rt, rd, shamt, funct, immediate, address);
 always@(posedge clk) begin
-/*read_reg1<= rs; read_reg2<=rt; EnableWrite<=1'b1; write_reg <= rs; write_data<= 32'd60;
-#1 read_reg1<= rs; read_reg2<=rt; EnableWrite<=1'b1; write_reg <= rt; write_data<= 32'd40;*/
 read_reg1<= rs; read_reg2<=rt; EnableWrite<=1'b0; write_reg <= rd; write_data<= 32'd0;
 #1 read_reg1<=rs; read_reg2<=rt; EnableWrite<=1'b1; write_reg <= rd; write_data<= alu_result;
 #1 read_reg1<= rd; read_reg2<=5'd0; EnableWrite<=1'b0; write_reg <= 5'd0; write_data<= 32'd0;
