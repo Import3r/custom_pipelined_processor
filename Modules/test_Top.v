@@ -1,12 +1,12 @@
 module test_Top();
-reg [31:0] instruction;
-wire [31:0] result, data_out1,data_out2;
+reg [31:0] PC;
+wire [31:0] result;
 
 initial begin
-instruction<=32'hD4B4820;
-#100 instruction<=32'hD4B4824;
+PC<=32'd108;
+#100 PC<=32'd112;
 #100 $finish;
 end
 
-Top t1(instruction, result, data_out1,data_out2);
+Top t1(PC, result);
 endmodule
