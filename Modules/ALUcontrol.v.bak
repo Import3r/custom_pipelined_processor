@@ -1,0 +1,53 @@
+module ALUcontrol(clk, ALUop, func,ALUcontrol_signal);
+input clk;
+input [1:0] ALUop;
+input [5:0] func;
+output reg [3:0] ALUcontrol_signal;
+
+always @(posedge clk) begin
+case(ALUop)
+3'd0: begin
+//R-Type
+case(func)
+5'h20: ALUcontrol_signal = 4'd0; //add
+5'h14: ALUcontrol_signal = 4'd1;//and
+5'h21: ALUcontrol_signal = 4'd0;//lwn
+5'h27: ALUcontrol_signal = 4'd2;//nor
+5'h25: ALUcontrol_signal = 4'd3;//or
+5'h2a: ALUcontrol_signal = 4'd4;//slt
+5'h2b: ALUcontrol_signal = 4'd5;//sltu
+5'h00: ALUcontrol_signal = 4'd6;//sll
+5'h02: ALUcontrol_signal = 4'd7;//srl
+5'h13: ALUcontrol_signal = 4'd0;//swn
+5'h24: ALUcontrol_signal = 4'd8;//sub
+endcase
+end
+
+endcase
+end
+endmodule
+/*
+Aluop for R 00
+addi -> add(rs,imm)
+lbu/lw/sb/sw -> add(rs,imm)
+
+andi -> and(rs, imm)
+
+beq -> sub(rs,rt)
+bnq -> sub(rs,rt)
+
+ori -> or(rs, imm)
+
+R-Type{
+add(rs,rt)
+and(rs,rt)
+lwn add(rs,rd)
+nor(rs,rt)
+or (rs,rt)
+slt (rs,rt)
+sltu (rs,rt)
+sll (rt)
+srl (rt)
+swn add(rs,rd)
+sub (rs,rt)
+}*/
