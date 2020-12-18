@@ -112,14 +112,19 @@ module instructionMemory(instruction, PC);
 			mem[114] <= 'h20;
 			mem[115] <= 'h14;*/
 			
-			mem[108] <= 'h0d;
+			/*mem[108] <= 'h0d;
 			mem[109] <= 'h2a;
 			mem[110] <= 'h40;
-			mem[111] <= 'h20;
+			mem[111] <= 'h20; add*/
+			
+			mem[108] <= 'h15;
+			mem[109] <= 'h09;
+			mem[110] <= 'h00;
+			mem[111] <= 'h02;
 			
 			mem[112] <= 'h0d;
 			mem[113] <= 'h09;
-			mem[114] <= 'h48;
+			mem[114] <= 'h58;
 			mem[115] <= 'h24;
 			//arethmatic operation 
 			/////////////////////////////////////////////////

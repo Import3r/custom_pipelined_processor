@@ -11,7 +11,6 @@ module Top(PC, result);
 input [31:0] PC;
 wire [31:0] instruction; //opcode & func/ EnableWrite & read write regs
 output reg [31:0] result;
-reg EnableWrite;
 reg [4:0] read_reg1, read_reg2, write_reg;
 reg [31:0] write_data;
 wire [31:0] data_out1, data_out2;
@@ -21,16 +20,28 @@ wire [31:0] alu_result;
 wire [5:0] opcode, funct;
 wire [15:0] immediate;
 wire [25:0] address;
-wire clk;
+wire clk,ZF,RegWrite,bransh_inst;
+wire [2:0] ALUop;
+wire [3:0] ALUcontrol_signal;
+reg [31:0] PC_next;
+
 clock c1(clk);
 instructionMemory i1(instruction, PC);
 inst_decoding i2(clk,instruction, opcode, rs, rt, rd, shamt, funct, immediate, address);
+control_unit c2(opcode, funct, ALUop, RegWrite,bransh_inst);
+ALUcontrol a1(clk, ALUop, funct,ALUcontrol_signal);
+
 always@(posedge clk) begin
-read_reg1<= rs; read_reg2<=rt; EnableWrite<=1'b0; write_reg <= rd; write_data<= 32'd0;
-#1 read_reg1<=rs; read_reg2<=rt; EnableWrite<=1'b1; write_reg <= rd; write_data<= alu_result;
-#1 read_reg1<= rd; read_reg2<=5'd0; EnableWrite<=1'b0; write_reg <= 5'd0; write_data<= 32'd0;
-#1 result = data_out1;
+PC_next = PC + 4;
+read_reg1<= rs; read_reg2<=rt; write_reg <= 5'd0; write_data<= 32'd0;
+#1 if(ZF && bransh_inst) begin
+PC_next = PC+4+immediate;
 end
-RegisterFile main_reg_file(EnableWrite,read_reg1, read_reg2, write_reg, write_data,data_out1, data_out2);
-ALU main_ALU(instruction,data_out1,data_out2,alu_result);
+#1 read_reg1<=5'd0; read_reg2<=5'd0; write_reg <= rd; write_data<= alu_result;
+#1 read_reg1<= rd; read_reg2<=5'd0; write_reg <= 5'd0; write_data<= 32'd0;
+#1 result = PC_next;
+end
+
+RegisterFile main_reg_file(RegWrite,read_reg1, read_reg2, write_reg, write_data,data_out1, data_out2);
+ALU main_ALU(data_out1,data_out2,shamt,ALUcontrol_signal,alu_result,ZF);
 endmodule 

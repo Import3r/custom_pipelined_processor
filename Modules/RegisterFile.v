@@ -9,14 +9,14 @@ reg [31:0] registers_i[31:0];
 reg [31:0] registers_f[31:0];
 
 always @* begin
+registers_i[8] = 32'd5;
 registers_i[9] = 32'd5;
-registers_i[10] = 32'd30;
 if (EnableWrite == 1'b1) begin
 registers_i[write_reg] = write_data;
 end
-else if (EnableWrite == 1'b0) begin
+//else if (EnableWrite == 1'b0) begin
 data_out1 = registers_i[read_reg1];
 data_out2 = registers_i[read_reg2];
-end
+//end
 end
 endmodule

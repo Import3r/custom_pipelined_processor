@@ -1,37 +1,38 @@
-module ALU(instruction,r1,r2,result,op_code,func,shamt);
-input [31:0] instruction;
-input [31:0] r1,r2;
+module ALU(op1,op2,shamt,ALUsignal,result,ZF);
+input [31:0] op1,op2;
+input [3:0] ALUsignal;
+input [4:0] shamt;
 output reg [31:0] result;
-output reg [5:0] op_code, func;
-output reg [4:0] shamt;
+output reg ZF;
+
 wire [31:0] result_add,result_sub,result_and,result_or,result_nor,result_sltu,result_slt;
 reg [31:0] result_sll, result_srl;
-add a1(r1,r2,result_add);
-sub s1(r1,r2,result_sub);
-sltu s2(r1,r2,result_sltu);
-slt s3(r1,r2,result_slt);
-assign result_and = r1&r2;
-assign result_or = r1|r2;
+
+add a1(op1,op2,result_add);
+sub s1(op1,op2,result_sub);
+sltu s2(op1,op2,result_sltu);
+slt s3(op1,op2,result_slt);
+
+assign result_and = op1&op2;
+assign result_or = op1|op2;
 assign result_nor = ~result_or;
+
 always @* begin
-op_code = instruction[31:26];
-func = instruction[5:0];
-shamt = instruction[10:6];
-result_sll = r2 << shamt;
-result_srl = r2 >> shamt;
-if	(op_code == 'h3) begin
-case(func)
-'h20: result = result_add;
-'h24: result = result_sub;
-'h14: result = result_and;
-'h25: result = result_or;
-'h27: result = result_nor;
-'h2a: result = result_sltu;
-'h2b: result = result_slt;
-'h00: result = result_sll;
-'h02: result = result_srl;
-default: result = 'hFFFFFFFF;
+ZF = 1'b0;
+result_sll = op2 << shamt;
+result_srl = op2 >> shamt;
+
+case(ALUsignal)
+4'd0: result = result_add;
+4'd1: result = result_and;
+4'd2: result = result_nor;
+4'd3: result = result_or;
+4'd4: result = result_slt;
+4'd5: result = result_sltu;
+4'd6: result = result_sll;
+4'd7: result = result_srl;
+4'd8: result = result_sub;
 endcase
-end
+if (result == 'd0) ZF = 1'b1;
 end
 endmodule

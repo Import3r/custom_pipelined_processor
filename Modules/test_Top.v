@@ -5,7 +5,7 @@ wire [31:0] result;
 initial begin
 #50 PC<=32'd108;
 #200 PC<=32'd112;
-#1000 $finish;
+#200 $finish;
 end
 
 Top t1(PC, result);
