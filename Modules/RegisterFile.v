@@ -9,8 +9,9 @@ reg [31:0] registers_i[31:0];
 reg [31:0] registers_f[31:0];
 
 always @* begin
-registers_i[8] = 32'd5;
-registers_i[9] = 32'd5;
+registers_i[19] = 32'd5;
+registers_i[20] = 32'd20;
+registers_i[21] = 32'd40;
 if (EnableWrite == 1'b1) begin
 registers_i[write_reg] = write_data;
 end

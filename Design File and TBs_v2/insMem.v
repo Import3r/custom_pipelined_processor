@@ -8,22 +8,10 @@ module instructionMemory(instruction, PC);
 	initial begin
 			// SOME softwares would have a 5000 limit on for loop.
 			// You can break this into multiple loops or initialize several locations in parallel
-			/*for (j = 0; j<4999; j = j + 1)//16k
+			for (j = 0; j<16384; j = j + 1)   // 16 K Memory
 				begin
 					mem[j] <= 8'b0;
 				end		
-			for (j = 5000; j<10000; j = j + 1)//16k
-				begin
-					mem[j] <= 8'b0;
-				end				
-			for (j = 10001; j<15000; j = j + 1)//16k
-				begin
-					mem[j] <= 8'b0;
-				end
-			for (j = 15001; j<16384; j = j + 1)//16k
-				begin
-					mem[j] <= 8'b0;
-				end*/
 				
 			// ******************************************************	
 			///Test Case 1: Load Operations 
