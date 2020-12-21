@@ -25,12 +25,19 @@ wire [2:0] ALUop;
 wire [3:0] ALUcontrol_signal;
 
 clock c1(clk);
-instructionMemory i1(instruction, PC);
-inst_decoding i2(clk,instruction, opcode, rs, rt, rd, shamt, funct, immediate, address);
+instructionMemory i1(instruction, PC);//IF
+inst_decoding i2(clk,instruction, opcode, rs, rt, rd, shamt, funct, immediate, address); //ID
 control_unit c2(opcode, funct, ALUop, RegWrite,branch_inst,RegDest, ALUsrc);
-ALUcontrol a1(clk, ALUop, funct,ALUcontrol_signal);
+ALUcontrol a1(ALUop, funct,ALUcontrol_signal);
+RegisterFile main_reg_file(clk,RegWrite,rs, rt, write_reg, alu_result,data_out1, data_out2);
+ALU main_ALU(clk,data_out1,ALU_op2,shamt,ALUcontrol_signal,alu_result,ZF); //EXEC
 
 always@(posedge clk) begin
+read_reg1 = 0;
+read_reg2 = 0;
+write_reg = 0;
+write_data = 0;
+ALU_op2 = 0;
 case(RegDest)
 1'b0: write_reg = rt;
 1'b1: write_reg = rd;
@@ -41,7 +48,4 @@ case (ALUsrc)
 endcase
 result <= alu_result;
 end
-
-RegisterFile main_reg_file(RegWrite,rs, rt, write_reg, alu_result,data_out1, data_out2);
-ALU main_ALU(data_out1,ALU_op2,shamt,ALUcontrol_signal,alu_result,ZF);
 endmodule 

@@ -1,10 +1,9 @@
-module ALUcontrol(clk, ALUop, func,ALUcontrol_signal);
-input clk;
+module ALUcontrol(ALUop, func,ALUcontrol_signal);
 input [2:0] ALUop;
 input [5:0] func;
 output reg [3:0] ALUcontrol_signal;
 
-always @(posedge clk) begin
+always @* begin
 case(ALUop)
 3'd0: begin
 //R-Type

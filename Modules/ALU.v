@@ -1,4 +1,5 @@
-module ALU(op1,op2,shamt,ALUsignal,result,ZF);
+module ALU(clk,op1,op2,shamt,ALUsignal,result,ZF);
+input clk;
 input [31:0] op1,op2;
 input [3:0] ALUsignal;
 input [4:0] shamt;
@@ -17,7 +18,7 @@ assign result_and = op1&op2;
 assign result_or = op1|op2;
 assign result_nor = ~result_or;
 
-always @* begin
+always @(posedge clk) begin
 ZF = 1'b0;
 result_sll = op2 << shamt;
 result_srl = op2 >> shamt;
