@@ -6,7 +6,7 @@ module clock(clk);
 	end
 	always
 		begin
-		#50		
+		#50 
 		clk <= ~clk;	
 	end
 endmodule

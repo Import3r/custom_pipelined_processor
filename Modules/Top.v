@@ -7,12 +7,11 @@ stage5 : writeback stage (WB)
 */
 
 //module Top(PC_VALUE);// testbench holds the PC Value.
-module Top(PC, result);
-input [31:0] PC;
-wire [31:0] instruction; //opcode & func/ EnableWrite & read write regs
-output reg [31:0] result;
+module Top(PC_initial);
+input [31:0] PC_initial;
+wire [31:0] instruction, PC; //opcode & func/ EnableWrite & read write regs
 reg [4:0] read_reg1, read_reg2, write_reg;
-reg [31:0] write_data,ALU_op2;
+reg [31:0] write_data,ALU_op2,PC_in;
 wire [31:0] data_out1, data_out2;
 wire [4:0] rs, rt, rd;
 wire [4:0] shamt;
@@ -25,6 +24,7 @@ wire [2:0] ALUop;
 wire [3:0] ALUcontrol_signal;
 
 clock c1(clk);
+PC_module main_PC(clk,PC_in,PC_initial, PC);
 instructionMemory i1(instruction, PC);//IF
 inst_decoding i2(clk,instruction, opcode, rs, rt, rd, shamt, funct, immediate, address); //ID
 control_unit c2(opcode, funct, ALUop, RegWrite,branch_inst,RegDest, ALUsrc);
@@ -46,6 +46,6 @@ case (ALUsrc)
 1'b0: ALU_op2 = data_out2;
 1'b1: ALU_op2 = data_out2;//signExtImm(CHANGE THIS)
 endcase
-result <= alu_result;
+PC_in = PC+4;
 end
 endmodule 

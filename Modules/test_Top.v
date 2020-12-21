@@ -1,6 +1,5 @@
 module test_Top();
 reg [31:0] PC;
-wire [31:0] result;
 reg [31:0] cycle;
 initial begin
 PC<=32'd216;
@@ -9,19 +8,16 @@ end
 
 always @(posedge t1.clk) begin	
 	
-	if (cycle == 6) begin
+	if (cycle == 24) begin
 	$display("cycle: %d" , cycle);
 	$display("PC: %d",t1.PC);
 	$display("$s5: %d" , t1.main_reg_file.registers_i[23], " The correct value is 20"); //s5
-	PC<=32'd220;
-	end
-	if (cycle == 12) begin
-	$display("cycle: %d" , cycle);
-	$display("PC: %d",t1.PC);
-	$display("$s5: %d" , t1.main_reg_file.registers_i[24], " The correct value is 35"); //s6
+	$display("$s6: %d" , t1.main_reg_file.registers_i[24], " The correct value is 35"); //s6
+	$display("$t0: %d" , t1.main_reg_file.registers_i[8], " The correct value is 70"); //t0
+	$display("$t9: %d" , t1.main_reg_file.registers_i[17], " The correct value is 1"); //t9
 	$finish;
 	end
 	cycle = cycle + 1;
 end
-Top t1(PC, result);
+Top t1(PC);
 endmodule

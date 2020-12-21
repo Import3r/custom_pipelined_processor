@@ -115,17 +115,8 @@ module instructionMemory(instruction, PC);
 			mem[220] <= 'h0e;
 			mem[221] <= 'h75;
 			mem[222] <= 'hc0;
-			mem[223] <= 'h24;
-			
-			mem[224] <= 'h0d;
-			mem[225] <= 'h2a;
-			mem[226] <= 'h40;
-			mem[227] <= 'h20;
-			
-			mem[228] <= 'h0c;
-			mem[229] <= 'h0a;
-			mem[230] <= 'h88;
-			mem[231] <= 'h82;
+			mem[223] <= 'h24;			
+
 			// ******************************************************	
 			///Test Case 3: Logical Operations - No Forwarding
 			// ****************************************************** 
