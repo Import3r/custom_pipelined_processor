@@ -116,7 +116,7 @@ module instructionMemory(instruction, PC);
 			mem[221] <= 'h75;
 			mem[222] <= 'hc0;
 			mem[223] <= 'h24;
-			
+			//Habed
 			mem[224] <= 'h0d;
 			mem[225] <= 'h2a;
 			mem[226] <= 'h40;
@@ -126,6 +126,16 @@ module instructionMemory(instruction, PC);
 			mem[229] <= 'h0a;
 			mem[230] <= 'h88;
 			mem[231] <= 'h82;
+			//SRL
+			mem[232] <= 'h0c;
+			mem[233] <= 'h09;
+			mem[234] <= 'h88;
+			mem[235] <= 'h42;
+			//Jr t8 = 232
+			mem[296] <= 'h0c;
+			mem[297] <= 'h10;
+			mem[298] <= 'h00;
+			mem[299] <= 'h08;			
 			// ******************************************************	
 			///Test Case 3: Logical Operations - No Forwarding
 			// ****************************************************** 

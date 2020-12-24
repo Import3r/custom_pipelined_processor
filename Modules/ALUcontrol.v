@@ -21,7 +21,7 @@ case(func)
 6'h24: ALUcontrol_signal = 4'd8;//sub
 endcase
 end
-3'd1: ALUcontrol_signal = 4'd0; //addi+lbu+sb+sw+lw -> add
+3'd1: ALUcontrol_signal = 4'd0; //addi+lbu+sb+sw+lw+jal -> add
 3'd2: ALUcontrol_signal = 4'd8;//beq+bne -> sub
 3'd3: ALUcontrol_signal = 4'd1;//andi -> and
 3'd4: ALUcontrol_signal = 4'd3;//ori -> or
