@@ -1,14 +1,16 @@
-module control_unit(opcode, func, ALUop, RegWrite,branch_inst, RegDest, ALUsrc1,ALUsrc2,jump);
+module control_unit(opcode, func, ALUop, RegWrite,branch_inst, RegDest, ALUsrc1,ALUsrc2,jump,zero,RegSrc);
 input [5:0] opcode, func;
 output reg [2:0] ALUop;
-output reg [1:0] RegDest, ALUsrc2,jump;
-output reg RegWrite,branch_inst,ALUsrc1;
+output reg [1:0] RegDest, ALUsrc2,jump,branch_inst,RegSrc;
+output reg RegWrite,ALUsrc1,zero;
 
 always @* begin
 jump = 2'b00;
 RegWrite = 1'b0;
-branch_inst = 1'b0;
+branch_inst = 2'b00;
 ALUsrc1 = 1'b1;
+zero = 1'b0;
+RegSrc = 2'b00; //alu
 if(opcode == 6'h3) begin
 ALUop = 3'd0;
 ALUsrc2 = 2'b00; //read reg (rt)
@@ -63,12 +65,20 @@ ALUop = 3'd3;
 RegWrite = 1'b1;
 RegDest = 2'b00; //rt
 ALUsrc2 = 2'b01; //imm
+zero = 1'b1; //ZeroExtImm
 end
-else if(opcode == 6'h5 || opcode == 6'h4) begin
-//beq+bne
+else if(opcode == 6'h5) begin
+//beq
 ALUop = 3'd2;
 RegWrite = 1'b0;
-branch_inst = 1'b1;
+branch_inst = 2'b01;//beq
+ALUsrc2 = 2'b00; //read reg (rt)
+end
+else if(opcode == 6'h4) begin
+//bne
+ALUop = 3'd2;
+RegWrite = 1'b0;
+branch_inst = 2'b10;//bne
 ALUsrc2 = 2'b00; //read reg (rt)
 end
 else if(opcode == 6'h22) begin
@@ -82,6 +92,7 @@ else if(opcode == 6'hf) begin
 //lui
 RegWrite = 1'b1;
 RegDest = 2'b00; //rt
+RegSrc = 2'b10; //imm
 end
 else if(opcode == 6'h12) begin
 //lw
@@ -94,6 +105,7 @@ ALUop = 3'd4;
 RegWrite = 1'b1;
 RegDest = 2'b00; //rt
 ALUsrc2 = 2'b01; //imm
+zero = 1'b1; //ZeroExtImm
 end
 else if(opcode == 6'h28) begin
 //sb

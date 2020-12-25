@@ -117,20 +117,26 @@ module instructionMemory(instruction, PC);
 			mem[222] <= 'hc0;
 			mem[223] <= 'h24;
 			//Habed
-			mem[224] <= 'h0d;
-			mem[225] <= 'h2a;
-			mem[226] <= 'h40;
-			mem[227] <= 'h20;
-			
-			mem[228] <= 'h0c;
-			mem[229] <= 'h0a;
-			mem[230] <= 'h88;
-			mem[231] <= 'h82;
+			//addi
+			mem[224] <= 'h26;
+			mem[225] <= 'haf;
+			mem[226] <= 'h00;
+			mem[227] <= 'h05;
+			//beq
+			mem[228] <= 'h11;
+			mem[229] <= 'h2a;
+			mem[230] <= 'hff;
+			mem[231] <= 'hfe;
 			//SRL
 			mem[232] <= 'h0c;
 			mem[233] <= 'h09;
 			mem[234] <= 'h88;
 			mem[235] <= 'h42;
+					//lui
+			mem[236] <= 'h3c;
+			mem[237] <= 'h0f;
+			mem[238] <= 'h00;
+			mem[239] <= 'h0a;
 			//Jr t8 = 232
 			mem[296] <= 'h0c;
 			mem[297] <= 'h10;
