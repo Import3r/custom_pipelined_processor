@@ -1,8 +1,8 @@
-module control_unit(opcode, func, ALUop, RegWrite,branch_inst, RegDest, ALUsrc1,ALUsrc2,jump,zero,RegSrc,word_byte,Mem_Write_Read,Read_reg_2);
+module control_unit(opcode, func, ALUop, RegWrite,branch_inst, RegDest, ALUsrc1,ALUsrc2,jump,zero,RegSrc,word_byte,Mem_Write_Read,Read_reg_2,MemData);
 input [5:0] opcode, func;
 output reg [2:0] ALUop;
 output reg [1:0] RegDest, ALUsrc2,jump,branch_inst,RegSrc,Mem_Write_Read;
-output reg RegWrite,ALUsrc1,zero,word_byte,Read_reg_2;
+output reg RegWrite,ALUsrc1,zero,word_byte,Read_reg_2,MemData;
 
 always @* begin
 Read_reg_2 = 1'b0; //rt
@@ -13,6 +13,7 @@ branch_inst = 2'b00;
 ALUsrc1 = 1'b1;
 zero = 1'b0;
 RegSrc = 2'b00; //alu
+MemData = 1'b0; //sw,sb
 
 if(opcode == 6'h3) begin
 ALUop = 3'd0;
@@ -39,6 +40,7 @@ RegWrite = 1'b0;
 word_byte = 1'b0;
 Mem_Write_Read = 2'b01;
 Read_reg_2 = 1'b1; //rd
+MemData = 1'b1; //rt 
 end
 else begin
 //add,and,nor,or,slt,sltu,sll,srl,sub

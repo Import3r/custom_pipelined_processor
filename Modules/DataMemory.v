@@ -3,7 +3,6 @@ input [31:0] address,write_data;
 input [1:0] Mem_Write_Read;
 input clk,word_byte;
 output reg[31:0] Read_data;
-
 	// Intitialization for the memory 
 	//reg [7:0] mem [1023:0]; // building a 1k memory //
 	reg [7:0] mem [31:0]; // building a 32 memory //

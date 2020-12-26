@@ -137,11 +137,16 @@ module instructionMemory(instruction, PC);
 			mem[237] <= 'h0f;
 			mem[238] <= 'h00;
 			mem[239] <= 'h0a;
-			//lw
-			mem[240] <= 'h49;
-			mem[241] <= 'h2f;
+			//sw
+			mem[240] <= 'had;
+			mem[241] <= 'h2a;
 			mem[242] <= 'h00;
-			mem[243] <= 'h00;
+			mem[243] <= 'h02;
+			//lw
+			mem[244] <= 'h49;
+			mem[245] <= 'h2f;
+			mem[246] <= 'h00;
+			mem[247] <= 'h02;
 			//Jr t8 = 232
 			mem[296] <= 'h0c;
 			mem[297] <= 'h10;

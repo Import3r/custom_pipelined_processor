@@ -11,15 +11,15 @@ module Top(PC_initial);
 input [31:0] PC_initial;
 wire [31:0] instruction, PC; //opcode & func/ EnableWrite & read write regs
 reg [4:0] write_reg,ReadReg2;
-reg [31:0] write_data,ALU_op1,ALU_op2,PC_in,PC_4;
-wire [31:0] data_out1, data_out2,Read_data;
+reg [31:0] write_data,ALU_op1,ALU_op2,PC_in,PC_4,Write_MEM_Data;
+wire [31:0] data_out1, data_out2,Read_data,data_out3;
 wire [4:0] rs, rt, rd;
 wire [4:0] shamt;
 wire [31:0] alu_result,signExtImm;
 wire [5:0] opcode, funct;
 wire [15:0] immediate;
 wire [25:0] address;
-wire clk,ZF,RegWrite,ALUsrc1,zero,word_byte,reg_2_src;
+wire clk,ZF,RegWrite,ALUsrc1,zero,word_byte,reg_2_src,MemData;
 wire [1:0] RegDest, ALUsrc2,jump,branch_inst,RegSrc,Mem_Write_Read;
 wire [2:0] ALUop;
 wire [3:0] ALUcontrol_signal;
@@ -28,20 +28,18 @@ clock c1(clk);
 PC_module main_PC(clk,PC_in,PC_initial, PC);
 instructionMemory i1(instruction, PC);//IF
 inst_decoding i2(clk,instruction, opcode, rs, rt, rd, shamt, funct, immediate, address); //ID
-control_unit c2(opcode, funct, ALUop, RegWrite,branch_inst,RegDest, ALUsrc1,ALUsrc2,jump,zero,RegSrc,word_byte,Mem_Write_Read,reg_2_src);
+control_unit c2(opcode, funct, ALUop, RegWrite,branch_inst,RegDest, ALUsrc1,ALUsrc2,jump,zero,RegSrc,word_byte,Mem_Write_Read,reg_2_src,MemData);
 ALUcontrol a1(ALUop, funct,ALUcontrol_signal);
-RegisterFile main_reg_file(clk,RegWrite,rs, ReadReg2, write_reg, write_data,data_out1, data_out2);
+RegisterFile main_reg_file(clk,RegWrite,rs, ReadReg2,rt, write_reg, write_data,data_out1, data_out2,data_out3);
 ALU main_ALU(clk,ALU_op1,ALU_op2,shamt,ALUcontrol_signal,alu_result,ZF); //EXEC
 sign_extend s1(immediate,signExtImm,zero);
-DataMemory main_data_memory(clk,alu_result,data_out2,Mem_Write_Read,Read_data,word_byte);
+DataMemory main_data_memory(clk,alu_result,Write_MEM_Data,Mem_Write_Read,Read_data,word_byte);
 always@(posedge clk) begin
-write_data = 0;
 ALU_op2 = 0;
-
 //Register read 2 src
 case(reg_2_src)
 1'b0: ReadReg2 = rt;//rt
-1'b1: ReadReg2 = rd;//rd
+1'b1: ReadReg2 = rd;//rd for lwn
 endcase
 //Register dest mux
 case(RegDest)
@@ -92,6 +90,11 @@ end
 2'b01: PC_in = {PC_4[31:28],address<<2};
 //Jump register instruction
 2'b10: PC_in = data_out2;
+endcase
+
+case(MemData)
+1'b0: Write_MEM_Data = data_out2; //sw,sb
+1'b1: Write_MEM_Data = data_out3; //swn
 endcase
 end
 
