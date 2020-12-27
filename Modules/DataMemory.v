@@ -4,8 +4,8 @@ input [1:0] Mem_Write_Read;
 input clk,word_byte;
 output reg[31:0] Read_data;
 	// Intitialization for the memory 
-	//reg [7:0] mem [1023:0]; // building a 1k memory //
-	reg [7:0] mem [31:0]; // building a 32 memory //
+	reg [7:0] mem [1023:0]; // building a 1k memory //
+//	reg [7:0] mem [31:0]; // building a 32 memory //
 	integer i;
 	
 	initial
@@ -18,7 +18,7 @@ output reg[31:0] Read_data;
 	mem[23] 	= 24;
 	mem[27] 	= 28;
 	mem[31] 	= 32;*/
-			for(i = 0; i <32; i = i + 1)
+			for(i = 0; i <1023; i = i + 1)
 				begin
 					mem[i] <=  0;
 					if((i+1)%4 == 0)

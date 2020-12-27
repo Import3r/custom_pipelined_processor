@@ -9,13 +9,13 @@ stage5 : writeback stage (WB)
 //module Top(PC_VALUE);// testbench holds the PC Value.
 module Top(PC_initial);
 input [31:0] PC_initial;
-wire [31:0] instruction, PC; //opcode & func/ EnableWrite & read write regs
+wire [31:0] instruction, program_counter; //opcode & func/ EnableWrite & read write regs
 reg [4:0] write_reg,ReadReg2;
 reg [31:0] write_data,ALU_op1,ALU_op2,PC_in,PC_4,Write_MEM_Data;
 wire [31:0] data_out1, data_out2,Read_data,data_out3;
 wire [4:0] rs, rt, rd;
 wire [4:0] shamt;
-wire [31:0] alu_result,signExtImm;
+wire [31:0] ALUOut_EXEC,signExtImm;
 wire [5:0] opcode, funct;
 wire [15:0] immediate;
 wire [25:0] address;
@@ -25,17 +25,16 @@ wire [2:0] ALUop;
 wire [3:0] ALUcontrol_signal;
 
 clock c1(clk);
-PC_module main_PC(clk,PC_in,PC_initial, PC);
-instructionMemory i1(instruction, PC);//IF
+PC_module main_PC(clk,PC_in,PC_initial, program_counter);
+instructionMemory i1(instruction, program_counter);//IF
 inst_decoding i2(clk,instruction, opcode, rs, rt, rd, shamt, funct, immediate, address); //ID
 control_unit c2(opcode, funct, ALUop, RegWrite,branch_inst,RegDest, ALUsrc1,ALUsrc2,jump,zero,RegSrc,word_byte,Mem_Write_Read,reg_2_src,MemData);
 ALUcontrol a1(ALUop, funct,ALUcontrol_signal);
-RegisterFile main_reg_file(clk,RegWrite,rs, ReadReg2,rt, write_reg, write_data,data_out1, data_out2,data_out3);
-ALU main_ALU(clk,ALU_op1,ALU_op2,shamt,ALUcontrol_signal,alu_result,ZF); //EXEC
+RegisterFile regFile(clk,RegWrite,rs, ReadReg2,rt, write_reg, write_data,data_out1, data_out2,data_out3);
+ALU main_ALU(clk,ALU_op1,ALU_op2,shamt,ALUcontrol_signal,ALUOut_EXEC,ZF); //EXEC
 sign_extend s1(immediate,signExtImm,zero);
-DataMemory main_data_memory(clk,alu_result,Write_MEM_Data,Mem_Write_Read,Read_data,word_byte);
+DataMemory main_data_memory(clk,ALUOut_EXEC,Write_MEM_Data,Mem_Write_Read,Read_data,word_byte);
 always@(posedge clk) begin
-ALU_op2 = 0;
 //Register read 2 src
 case(reg_2_src)
 1'b0: ReadReg2 = rt;//rt
@@ -52,7 +51,7 @@ endcase
 case (ALUsrc2)
 2'b00: ALU_op2 = data_out2; //rt||rd
 2'b01: ALU_op2 = signExtImm; //imm
-2'b10: ALU_op2 = PC+8; //PC+8
+2'b10: ALU_op2 = program_counter+8; //PC+8
 endcase
 case (ALUsrc1)
 1'b0: ALU_op1 = 5'd0;//$0
@@ -61,13 +60,13 @@ endcase
 
 //Register source mux
 case(RegSrc)
-2'b00: write_data = alu_result;//alu_result
+2'b00: write_data = ALUOut_EXEC;//ALUOut_EXEC
 2'b01: write_data = Read_data;//Mem
 2'b10: write_data = {immediate, 16'b0};//lui
 endcase
 
-//Next PC mux
-PC_4 = PC+4;
+//Next program_counter mux
+PC_4 = program_counter+4;
 case(jump)
 //Choosing between PC+4 and branches
 2'b00: begin

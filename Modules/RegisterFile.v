@@ -9,13 +9,13 @@ reg [31:0] registers_i[31:0];
 reg [31:0] registers_f[31:0];
 
 always @(negedge clk) begin
-//registers_i[0] = 32'd1;//0
-registers_i[9] = 32'd6;//t1
+registers_i[0] = 32'd0;//0
+/*registers_i[9] = 32'd6;//t1
 registers_i[10] = 32'd60;//t2
 registers_i[16] = 32'd232;//t8
 registers_i[19] = 32'd2;//s1
 registers_i[20] = 32'd15;//s2
-registers_i[21] = 32'd40;//s3
+registers_i[21] = 32'd40;//s3*/
 //else if (EnableWrite == 1'b0) begin
 data_out1 = registers_i[read_reg1];
 data_out2 = registers_i[read_reg2];

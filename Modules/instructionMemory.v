@@ -99,7 +99,7 @@ module instructionMemory(instruction, PC);
 			
 			mem[208] <= 'h24;
 			mem[209] <= 'h15;
-			mem[200] <= 'h00;
+			mem[210] <= 'h00;
 			mem[211] <= 'h03;
 			
 			mem[212] <= 'h24;
@@ -164,7 +164,7 @@ module instructionMemory(instruction, PC);
 			mem[300] <= 'h24;
 			mem[301] <= 'h13;
 			mem[302] <= 'h00;
-			mem[303] <= 'h05;
+			mem[303] <= 'h0F;
 			
 			mem[304] <= 'h24;
 			mem[305] <= 'h14;
