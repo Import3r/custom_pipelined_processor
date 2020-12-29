@@ -13,9 +13,9 @@ always @(posedge clk) begin
 PC_out = PC_temp;
 end
 always @(negedge clk) begin
-if (cycle % 8 == 0) begin
+//if (cycle % 8 == 0) begin
 PC_temp = PC_in;
-end
+//end
 cycle = cycle + 1;
 end
 endmodule

@@ -1,0 +1,26 @@
+module test_Top_pipeline(); 
+	reg [31:0]PC_VALUE_;		  
+	reg [31:0] cycle;
+	Top_pipline top(PC_VALUE_);
+	initial begin
+		PC_VALUE_ <= 100;	  
+		cycle <= 1;
+	end				   
+	always @(posedge top.clk) begin	
+	
+	if (cycle == 2)
+	begin
+		$display("cycle: %d" , cycle);
+		$display("PC: %d",top.program_counter);
+		$display("PC_inside %d" , IF_ID.PC_4_temp, " The correct value is 104");
+		$display("instruction_inside %h" , IF_ID.instruction_temp, " The correct value is 48090004");
+		$display("PC_out %d" , PC_4_out, " The correct value is 100");
+		$display("instruction_out %h" , instruction_out, " The correct value is 48080000");
+		$finish;
+		end
+		
+		
+	cycle = cycle + 1;
+		
+	end
+endmodule

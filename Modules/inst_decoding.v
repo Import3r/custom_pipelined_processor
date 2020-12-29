@@ -1,6 +1,5 @@
-module inst_decoding(clk,Instruction, opcode, rs, rt, rd, shamt, funct, immediate, address);
+module inst_decoding(Instruction, opcode, rs, rt, rd, shamt, funct, immediate, address);
 
-input clk;
 input [31:0] Instruction;
 output reg [5:0] opcode, funct;
 output reg [4:0] rs, rt, rd, shamt;
@@ -8,7 +7,7 @@ output reg [15:0] immediate;
 output reg [25:0] address;
 
 
-always @(posedge clk) begin
+always @(*) begin
 opcode = Instruction [31:26];
 case(opcode)
 6'h3: begin

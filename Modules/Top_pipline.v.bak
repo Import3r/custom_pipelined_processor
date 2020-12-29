@@ -7,7 +7,7 @@ stage5 : writeback stage (WB)
 */
 
 //module Top(PC_VALUE);// testbench holds the PC Value.
-module Top(PC_initial);
+module Top_pipline(PC_initial);
 input [31:0] PC_initial;
 wire [31:0] instruction, program_counter; //opcode & func/ EnableWrite & read write regs
 reg [4:0] write_reg,ReadReg2;

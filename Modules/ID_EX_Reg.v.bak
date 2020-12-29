@@ -1,0 +1,33 @@
+/*INOUTS
+Control signals
+Read data 1
+Read data 2
+Read data 3
+Sign exten imm
+rt
+rd
+PC_out
+*/
+
+module ID_EX_Reg(clk,
+//inputs
+ALUop, RegWrite,branch_inst, RegDest, ALUsrc1,ALUsrc2,jump,zero,RegSrc,word_byte,Mem_Write_Read,Read_reg_2,MemData, data_read1,data_read2,data_read3, signExtenImm,PC_out, rt,rd,
+//outputs
+OUT_ALUop,OUT_RegWrite,OUT_branch_inst,OUT_RegDest,OUT_ALUsrc1,OUT_ALUsrc2,OUT_jump,OUT_zero,OUT_RegSrc,OUT_word_byte,OUT_Mem_Write_Read,OUT_Read_reg_2,OUT_MemData,OUT_data_read1,OUT_data_read2,OUT_data_read3,OUT_signExtenImm,OUT_PC_out,OUT_rt,OUT_rd
+
+);
+input [2:0] ALUop;
+input [1:0] RegDest, ALUsrc2,jump,branch_inst,RegSrc,Mem_Write_Read;
+input RegWrite,ALUsrc1,zero,word_byte,Read_reg_2,MemData;
+input [31:0] data_read1,data_read2,data_read3,signExtenImm,PC_out;
+input [4:0] rt,rd;
+always @(posedge clk) begin
+PC_4_out <= PC_4_temp;
+instruction_out <= instruction_temp;
+end
+
+always @(negedge clk) begin
+PC_4_temp <= PC_4_in;
+instruction_temp <= instruction_in;
+end
+endmodule
