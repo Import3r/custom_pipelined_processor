@@ -112,16 +112,21 @@ module instructionMemory(instruction, PC);
 			mem[218] <= 'hb8;
 			mem[219] <= 'h20;
 			
+			/*mem[216] <= 'h14;
+			mem[217] <= 'h00;
+			mem[218] <= 'h00;
+			mem[219] <= 'h0F;*/
+			
 			mem[220] <= 'h0e;
 			mem[221] <= 'h75;
 			mem[222] <= 'hc0;
 			mem[223] <= 'h24;
 			//Habed
 			//addi
-			mem[224] <= 'h26;
-			mem[225] <= 'haf;
-			mem[226] <= 'h00;
-			mem[227] <= 'h05;
+			mem[224] <= 'h14;
+			mem[225] <= 'h00;
+			mem[226] <= 'hFF;
+			mem[227] <= 'hE0;
 			//beq
 			mem[228] <= 'h11;
 			mem[229] <= 'h2a;

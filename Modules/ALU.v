@@ -18,7 +18,7 @@ assign result_and = op1&op2;
 assign result_or = op1|op2;
 assign result_nor = ~result_or;
 
-always @(posedge clk) begin
+always @(negedge clk) begin
 ZF = 1'b0;
 result_sll = op2 << shamt;
 result_srl = op2 >> shamt;

@@ -12,9 +12,7 @@ $display("PC: %d",top.program_counter);
 $display("PC_in %d" , top.IF_ID.PC_4_in, " The correct value is 104");
 $display("instruction_in %h" , top.IF_ID.instruction_in, " The correct value is 48080000");
 $display("PC_out %d" , top.PC_4_out, " The correct value is 104");
-$display("instruction_out %h" , top.instruction_out, " The correct value is 48080000");*/
-$display("++++++++++++++++++ cycle: %d ++++++++++++++++++" , cycle);
-$display("PC: %d",top.program_counter);
+$display("instruction_out %h" , top.instruction_out, " The correct value is 48080000");
 $display("************ID-Decoding*************");
 $display("opcode %h" , top.opcode);
 $display("rs %d" , top.rs);
@@ -64,7 +62,30 @@ $display("OUT_signExtenImm %d" , top.OUT_signExtenImm);
 $display("OUT_PC_out %d" , top.OUT_PC_out);
 $display("OUT_rt %d" , top.OUT_rt);
 $display("OUT_rd %d" , top.OUT_rd);
-if (cycle == 4)
+ExE*/
+$display("++++++++++++++++++ cycle: %d ++++++++++++++++++" , cycle);
+$display("PC: %d",top.program_counter);
+$display("ALU_op1 %d" , top.ALU_op1);
+$display("ALU_op2 %d" , top.ALU_op2);
+$display("ALUcontrol_signal %b" , top.ALUcontrol_signal);
+$display("ALUOut_EXEC %d" , top.ALUOut_EXEC);
+$display("ZF %b" , top.ZF);
+$display("PC_in %d" , top.PC_in);
+$display("Branch address %d" , top.OUT_PC_out+(top.OUT_signExtenImm<<2));
+/*ex/mem reg*/
+$display("ID_Ex_out_jump %d" , top.ID_Ex_out_jump);
+$display("ID_Ex_out_branch_inst %d" , top.ID_Ex_out_branch_inst);
+$display("ID_Ex_out_RegSrc %d" , top.ID_Ex_out_RegSrc);
+$display("ID_Ex_out_Mem_Write_Read %d" , top.ID_Ex_out_Mem_Write_Read);
+$display("ID_Ex_out_RegWrite %d" , top.ID_Ex_out_RegWrite);
+$display("ID_Ex_out_word_byte %d" , top.ID_Ex_out_word_byte);
+$display("ID_Ex_out_MemData %d" , top.ID_Ex_out_MemData);
+$display("ID_Ex_out_ZF %d" , top.ID_Ex_out_ZF);
+$display("ID_Ex_out_data_read3 %d" , top.ID_Ex_out_data_read3);
+$display("ID_Ex_out_branch_address %d" , top.ID_Ex_out_branch_address);
+$display("ID_Ex_out_ALUOut_EXEC %d" , top.ID_Ex_out_ALUOut_EXEC);
+$display("ID_Ex_out_write_reg_dest %d" , top.ID_Ex_out_write_reg_dest);
+if (cycle == 5)
 begin
 $finish;
 end
