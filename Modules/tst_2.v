@@ -1,14 +1,14 @@
 module tst_2; 
 	reg [31:0]PC_VALUE_;		  
 	reg [31:0] cycle;
-	Top top(PC_VALUE_);
+	Top_pipline top(PC_VALUE_);
 	initial begin
 		PC_VALUE_ <= 200;	  
 		cycle <= 1;
 	end				   
 	always @(posedge top.clk) begin	
 
-	if (cycle == 8)
+	if (cycle == 12)
 	begin
 		$display("cycle: %d" , cycle);
 		$display("PC: %d",top.program_counter);				   

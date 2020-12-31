@@ -7,7 +7,6 @@ output reg RegWrite,ALUsrc1,zero,word_byte,Read_reg_2,MemData;
 always @* begin
 Read_reg_2 = 1'b0; //rt
 Mem_Write_Read = 2'b00;
-jump = 2'b00;
 RegWrite = 1'b0;
 branch_inst = 2'b00;
 ALUsrc1 = 1'b1;
@@ -86,6 +85,7 @@ ALUop = 3'd2;
 RegWrite = 1'b0;
 branch_inst = 2'b01;//beq
 ALUsrc2 = 2'b00; //read reg (rt)
+jump = 2'b00;
 end
 else if(opcode == 6'h4) begin
 //bne
@@ -93,6 +93,7 @@ ALUop = 3'd2;
 RegWrite = 1'b0;
 branch_inst = 2'b10;//bne
 ALUsrc2 = 2'b00; //read reg (rt)
+jump = 2'b00;
 end
 else if(opcode == 6'h22) begin
 //lbu

@@ -1,13 +1,13 @@
 module tst_5; 
 	reg [31:0]PC_VALUE_;		  
 	reg [31:0] cycle;
-	Top top(PC_VALUE_);
+	Top_pipline top(PC_VALUE_);
 	initial begin
 		PC_VALUE_ <= 500;	  
 		cycle <= 1;
 	end				   
 	always @(posedge top.clk) begin	
-if (cycle== 80)	
+if (cycle== 16)	
 begin
 		$display("cycle: %d" , cycle);
 		$display("PC: %d",top.program_counter);				   

@@ -111,12 +111,17 @@ module instructionMemory(instruction, PC);
 			mem[217] <= 'h74;
 			mem[218] <= 'hb8;
 			mem[219] <= 'h20;
+			/*Habed Statrt
+			mem[212] <= 'hAC;
+			mem[213] <= 'h13;
+			mem[214] <= 'h00;
+			mem[215] <= 'h00;
 			
-			/*mem[216] <= 'h14;
-			mem[217] <= 'h00;
+			mem[216] <= 'h48;
+			mem[217] <= 'h16;
 			mem[218] <= 'h00;
-			mem[219] <= 'h0F;*/
-			
+			mem[219] <= 'h00;
+			//Habed End*/
 			mem[220] <= 'h0e;
 			mem[221] <= 'h75;
 			mem[222] <= 'hc0;
@@ -148,10 +153,10 @@ module instructionMemory(instruction, PC);
 			mem[242] <= 'h00;
 			mem[243] <= 'h02;
 			//lw
-			mem[244] <= 'h49;
-			mem[245] <= 'h2f;
+			mem[244] <= 'h48;
+			mem[245] <= 'h16;
 			mem[246] <= 'h00;
-			mem[247] <= 'h02;
+			mem[247] <= 'h07;
 			//Jr t8 = 232
 			mem[296] <= 'h0c;
 			mem[297] <= 'h10;

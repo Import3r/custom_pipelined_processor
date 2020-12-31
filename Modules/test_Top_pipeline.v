@@ -62,9 +62,7 @@ $display("OUT_signExtenImm %d" , top.OUT_signExtenImm);
 $display("OUT_PC_out %d" , top.OUT_PC_out);
 $display("OUT_rt %d" , top.OUT_rt);
 $display("OUT_rd %d" , top.OUT_rd);
-ExE*/
-$display("++++++++++++++++++ cycle: %d ++++++++++++++++++" , cycle);
-$display("PC: %d",top.program_counter);
+ExE
 $display("ALU_op1 %d" , top.ALU_op1);
 $display("ALU_op2 %d" , top.ALU_op2);
 $display("ALUcontrol_signal %b" , top.ALUcontrol_signal);
@@ -72,21 +70,34 @@ $display("ALUOut_EXEC %d" , top.ALUOut_EXEC);
 $display("ZF %b" , top.ZF);
 $display("PC_in %d" , top.PC_in);
 $display("Branch address %d" , top.OUT_PC_out+(top.OUT_signExtenImm<<2));
-/*ex/mem reg*/
-$display("ID_Ex_out_jump %d" , top.ID_Ex_out_jump);
-$display("ID_Ex_out_branch_inst %d" , top.ID_Ex_out_branch_inst);
-$display("ID_Ex_out_RegSrc %d" , top.ID_Ex_out_RegSrc);
-$display("ID_Ex_out_Mem_Write_Read %d" , top.ID_Ex_out_Mem_Write_Read);
-$display("ID_Ex_out_RegWrite %d" , top.ID_Ex_out_RegWrite);
-$display("ID_Ex_out_word_byte %d" , top.ID_Ex_out_word_byte);
-$display("ID_Ex_out_MemData %d" , top.ID_Ex_out_MemData);
-$display("ID_Ex_out_ZF %d" , top.ID_Ex_out_ZF);
-$display("ID_Ex_out_data_read3 %d" , top.ID_Ex_out_data_read3);
-$display("ID_Ex_out_branch_address %d" , top.ID_Ex_out_branch_address);
-$display("ID_Ex_out_ALUOut_EXEC %d" , top.ID_Ex_out_ALUOut_EXEC);
-$display("ID_Ex_out_write_reg_dest %d" , top.ID_Ex_out_write_reg_dest);
+/*ex/mem reg
+$display("Ex_mem_out_jump %d" , top.Ex_mem_out_jump);
+$display("Ex_mem_out_branch_inst %d" , top.Ex_mem_out_branch_inst);
+$display("Ex_mem_out_RegSrc %d" , top.Ex_mem_out_RegSrc);
+$display("Ex_mem_out_Mem_Write_Read %d" , top.Ex_mem_out_Mem_Write_Read);
+$display("Ex_mem_out_RegWrite %d" , top.Ex_mem_out_RegWrite);
+$display("Ex_mem_out_word_byte %d" , top.Ex_mem_out_word_byte);
+$display("Ex_mem_out_MemData %d" , top.Ex_mem_out_MemData);
+$display("Ex_mem_out_ZF %d" , top.Ex_mem_out_ZF);
+$display("Ex_mem_out_data_read3 %d" , top.Ex_mem_out_data_read3);
+$display("Ex_mem_out_branch_address %d" , top.Ex_mem_out_branch_address);
+$display("Ex_mem_out_ALUOut_EXEC %d" , top.Ex_mem_out_ALUOut_EXEC);
+$display("Ex_mem_out_write_reg_dest %d" , top.Ex_mem_out_write_reg_dest);
+$display("===========================================");
+$display("Read_data %d" , top.Read_data);
+$display("PC: %d",top.program_counter);
+$display("mem_wb_out_RegSrc %d" , top.mem_wb_out_RegSrc);
+$display("mem_wb_out_RegWrite %d" , top.mem_wb_out_RegWrite);
+$display("mem_wb_out_ALUOut_EXEC %d" , top.mem_wb_out_ALUOut_EXEC);
+$display("mem_wb_out_write_reg_dest %d" , top.mem_wb_out_write_reg_dest);
+$display("mem_wb_out_Mem_dataOut %d" , top.mem_wb_out_Mem_dataOut);*/
+$display("++++++++++++++++++ cycle: %d ++++++++++++++++++" , cycle);
+$display("write_data %d" , top.write_data);
+$display("mem_wb_out_write_reg_dest %d" , top.mem_wb_out_write_reg_dest);
+$display("mem_wb_out_RegWrite %d" , top.mem_wb_out_RegWrite);
 if (cycle == 5)
 begin
+$display("$s4: %d" , top.regFile.registers_i[22], " The correct value is 2"); //s6
 $finish;
 end
 cycle = cycle + 1;
