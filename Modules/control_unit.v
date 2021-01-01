@@ -13,6 +13,7 @@ ALUsrc1 = 1'b1;
 zero = 1'b0;
 RegSrc = 2'b00; //alu
 MemData = 1'b0; //sw,sb
+jump = 2'b11; //default
 
 if(opcode == 6'h3) begin
 ALUop = 3'd0;
