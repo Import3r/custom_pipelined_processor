@@ -1,7 +1,7 @@
-module control_unit(opcode, func, ALUop, RegWrite,branch_inst, RegDest, ALUsrc1,ALUsrc2,jump,zero,RegSrc,word_byte,Mem_Write_Read,Read_reg_2,MemData);
+module control_unit(opcode, func, ALUop, RegWrite,branch_inst, RegDest, ALUsrc1,ALUsrc2,jump,zero,RegSrc,word_byte,Mem_Write_Read,Read_reg_2,MemData,OP1_src, OP2_src,how_many_ops);
 input [5:0] opcode, func;
 output reg [2:0] ALUop;
-output reg [1:0] RegDest, ALUsrc2,jump,branch_inst,RegSrc,Mem_Write_Read;
+output reg [1:0] RegDest, ALUsrc2,jump,branch_inst,RegSrc,Mem_Write_Read,OP1_src, OP2_src,how_many_ops;
 output reg RegWrite,ALUsrc1,zero,word_byte,Read_reg_2,MemData;
 
 always @* begin
@@ -14,8 +14,10 @@ zero = 1'b0;
 RegSrc = 2'b00; //alu
 MemData = 1'b0; //sw,sb
 jump = 2'b11; //default
+how_many_ops = 2'b00;
 
 if(opcode == 6'h3) begin
+how_many_ops = 2'b10;
 ALUop = 3'd0;
 ALUsrc2 = 2'b00; //read reg (rt||rd)
 ALUsrc1 = 1'b1; //rs
@@ -24,6 +26,8 @@ if (func == 6'h8) begin
 //jr
 RegWrite = 1'b0;
 jump = 2'b10;
+OP1_src = 2'b01; //rt
+how_many_ops = 2'b01;
 end
 else if (func == 6'h21) begin
 //lwn
@@ -33,6 +37,8 @@ word_byte = 1'b0;
 Mem_Write_Read = 2'b10;
 RegSrc = 2'b01;
 Read_reg_2 = 1'b1; //rd
+OP1_src = 2'b00; //rs
+OP2_src = 2'b10; //rd
 end
 else if (func == 6'h13) begin
 //swn
@@ -41,11 +47,16 @@ word_byte = 1'b0;
 Mem_Write_Read = 2'b01;
 Read_reg_2 = 1'b1; //rd
 MemData = 1'b1; //rt 
+OP1_src = 2'b00; //rs
+OP2_src = 2'b10; //rd
 end
 else begin
 //add,and,nor,or,slt,sltu,sll,srl,sub
 RegWrite = 1'b1;
 RegDest = 2'b01; //rd
+OP1_src = 2'b00; //rs
+OP2_src = 2'b01; //rt
+how_many_ops = 2'b10;
 end
 end
 
@@ -71,6 +82,8 @@ ALUop = 3'd1;
 RegWrite = 1'b1;
 RegDest = 2'b00; //rt
 ALUsrc2 = 2'b01; //imm
+OP1_src = 2'b00; //rs
+how_many_ops = 2'b01;
 end
 else if(opcode == 6'hc) begin
 //andi
@@ -79,6 +92,8 @@ RegWrite = 1'b1;
 RegDest = 2'b00; //rt
 ALUsrc2 = 2'b01; //imm
 zero = 1'b1; //ZeroExtImm
+OP1_src = 2'b00; //rs
+how_many_ops = 2'b01;
 end
 else if(opcode == 6'h5) begin
 //beq
@@ -87,6 +102,9 @@ RegWrite = 1'b0;
 branch_inst = 2'b01;//beq
 ALUsrc2 = 2'b00; //read reg (rt)
 jump = 2'b00;
+OP1_src = 2'b00; //rs
+OP2_src = 2'b01; //rt
+how_many_ops = 2'b10;
 end
 else if(opcode == 6'h4) begin
 //bne
@@ -95,6 +113,9 @@ RegWrite = 1'b0;
 branch_inst = 2'b10;//bne
 ALUsrc2 = 2'b00; //read reg (rt)
 jump = 2'b00;
+OP1_src = 2'b00; //rs
+OP2_src = 2'b01; //rt
+how_many_ops = 2'b10;
 end
 else if(opcode == 6'h22) begin
 //lbu
@@ -106,6 +127,8 @@ Mem_Write_Read = 2'b10;
 RegSrc = 2'b01;
 ALUsrc1 = 1'b1;
 ALUsrc2 = 2'b01;
+OP1_src = 2'b00; //rs
+how_many_ops = 2'b01;
 end
 else if(opcode == 6'hf) begin
 //lui
@@ -123,6 +146,8 @@ word_byte = 1'b0;
 Mem_Write_Read = 2'b10;
 RegSrc = 2'b01;
 RegDest = 2'b00;
+OP1_src = 2'b00; //rs
+how_many_ops = 2'b01;
 end
 else if(opcode == 6'he) begin
 //ori
@@ -131,6 +156,8 @@ RegWrite = 1'b1;
 RegDest = 2'b00; //rt
 ALUsrc2 = 2'b01; //imm
 zero = 1'b1; //ZeroExtImm
+OP1_src = 2'b00; //rs
+how_many_ops = 2'b01;
 end
 else if(opcode == 6'h28) begin
 //sb
@@ -140,6 +167,8 @@ ALUsrc1 = 1'b1;
 ALUsrc2 = 2'b01; //imm
 word_byte = 1'b1;
 Mem_Write_Read = 2'b01;
+OP1_src = 2'b00; //rs
+how_many_ops = 2'b01;
 end
 else if(opcode == 6'h2b) begin
 //sw
@@ -149,6 +178,8 @@ ALUsrc1 = 1'b1;
 ALUsrc2 = 2'b01; //imm
 word_byte = 1'b0;
 Mem_Write_Read = 2'b01;
+OP1_src = 2'b00; //rs
+how_many_ops = 2'b01;
 end
 end
 endmodule

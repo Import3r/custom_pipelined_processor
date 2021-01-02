@@ -25,19 +25,19 @@ wire [2:0] ALUop;
 wire [3:0] ALUcontrol_signal;
 
 wire [2:0] OUT_ALUop;
-wire [1:0] OUT_RegDest,OUT_ALUsrc2,OUT_jump,OUT_branch_inst,OUT_RegSrc,OUT_Mem_Write_Read;
+wire [1:0] OUT_RegDest,OUT_ALUsrc2,OUT_jump,OUT_branch_inst,OUT_RegSrc,OUT_Mem_Write_Read,OUT_how_many_ops,OUT_OP1_src, OUT_OP2_src;
 wire OUT_RegWrite,OUT_ALUsrc1,OUT_word_byte,OUT_MemData;
 wire [31:0] OUT_data_read1,OUT_data_read2,OUT_data_read3,OUT_signExtenImm,OUT_PC_out;
-wire [4:0] OUT_rt,OUT_rd,OUT_shamt;
+wire [4:0] OUT_rs,OUT_rt,OUT_rd,OUT_shamt;
 wire [26:0] OUT_address;
 
 
-wire [1:0] Ex_mem_out_jump,Ex_mem_out_branch_inst,Ex_mem_out_RegSrc,Ex_mem_out_Mem_Write_Read;
+wire [1:0] Ex_mem_out_jump,Ex_mem_out_branch_inst,Ex_mem_out_RegSrc,Ex_mem_out_Mem_Write_Read,OP1_src, OP2_src,Ex_mem_out_how_many_ops,Ex_mem_out_OP1_src,Ex_mem_out_OP2_src;
 wire Ex_mem_out_RegWrite,Ex_mem_out_word_byte,Ex_mem_out_MemData,Ex_mem_out_ZF;
 wire [31:0] Ex_mem_out_data_read3,Ex_mem_out_branch_address,Ex_mem_out_ALUOut_EXEC,Ex_mem_out_data_read2;
 wire [4:0] Ex_mem_out_write_reg_dest;
 
-wire [1:0] mem_wb_out_RegSrc;
+wire [1:0] mem_wb_out_RegSrc,forwardA,forwardB,how_many_ops;
 wire mem_wb_out_RegWrite;
 wire [31:0] mem_wb_out_ALUOut_EXEC,mem_wb_out_Mem_dataOut;
 wire [4:0] mem_wb_out_write_reg_dest;
@@ -52,24 +52,24 @@ IF_ID_Reg IF_ID(clk, program_counter+4, instruction,PC_4_out, instruction_out);
 //***ID***//
 inst_decoding main_inst_decoding(instruction_out, opcode, rs, rt, rd, shamt, funct, immediate, address);
 
-control_unit main_control_unit(opcode, funct, ALUop, RegWrite,branch_inst,RegDest, ALUsrc1,ALUsrc2,jump,zero,RegSrc,word_byte,Mem_Write_Read,reg_2_src,MemData);
+control_unit main_control_unit(opcode, funct, ALUop, RegWrite,branch_inst,RegDest, ALUsrc1,ALUsrc2,jump,zero,RegSrc,word_byte,Mem_Write_Read,reg_2_src,MemData,OP1_src, OP2_src,how_many_ops);
 
 sign_extend sign_extend_unit(immediate,signExtImm,zero);
 
 RegisterFile regFile(clk,mem_wb_out_RegWrite,rs, ReadReg2,rt, mem_wb_out_write_reg_dest, write_data,data_out1, data_out2,data_out3);
 
-ID_EX_Reg ID_EX(clk,ALUop, RegWrite,branch_inst, RegDest, ALUsrc1,ALUsrc2,jump,RegSrc,word_byte,Mem_Write_Read,MemData, data_out1,data_out2,data_out3, signExtImm,PC_4_out, rt,rd,funct,shamt,address,immediate,
-OUT_ALUop,OUT_RegWrite,OUT_branch_inst,OUT_RegDest,OUT_ALUsrc1,OUT_ALUsrc2,OUT_jump,OUT_RegSrc,OUT_word_byte,OUT_Mem_Write_Read,OUT_MemData,OUT_data_read1,OUT_data_read2,OUT_data_read3,OUT_signExtenImm,OUT_PC_out,OUT_rt,OUT_rd,OUT_funct,OUT_shamt,OUT_address,OUT_immediate);
+ID_EX_Reg ID_EX(clk,ALUop, RegWrite,branch_inst, RegDest, ALUsrc1,ALUsrc2,jump,RegSrc,word_byte,Mem_Write_Read,MemData, data_out1,data_out2,data_out3, signExtImm,PC_4_out, rs,rt,rd,funct,shamt,address,immediate,how_many_ops,OP1_src, OP2_src,
+OUT_ALUop,OUT_RegWrite,OUT_branch_inst,OUT_RegDest,OUT_ALUsrc1,OUT_ALUsrc2,OUT_jump,OUT_RegSrc,OUT_word_byte,OUT_Mem_Write_Read,OUT_MemData,OUT_data_read1,OUT_data_read2,OUT_data_read3,OUT_signExtenImm,OUT_PC_out,OUT_rs,OUT_rt,OUT_rd,OUT_funct,OUT_shamt,OUT_address,OUT_immediate,OUT_how_many_ops,OUT_OP1_src, OUT_OP2_src);
 
 //***EX***//
 ALUcontrol main_ALUcontrol_unit(OUT_ALUop, OUT_funct,ALUcontrol_signal);
 
 ALU main_ALU(clk,ALU_op1,ALU_op2,OUT_shamt,ALUcontrol_signal,ALUOut_EXEC,ZF);
 
-EX_MEM_Reg EX_MEM(clk,OUT_jump,OUT_branch_inst,OUT_RegSrc,OUT_Mem_Write_Read,OUT_RegWrite,OUT_word_byte,OUT_MemData,ZF,OUT_data_read2,OUT_data_read3,branch_address,ALUOut_EXEC,write_reg_temp,OUT_immediate,
+EX_MEM_Reg EX_MEM(clk,OUT_jump,OUT_branch_inst,OUT_RegSrc,OUT_Mem_Write_Read,OUT_RegWrite,OUT_word_byte,OUT_MemData,ZF,OUT_data_read2,OUT_data_read3,branch_address,ALUOut_EXEC,write_reg_temp,OUT_immediate,OUT_how_many_ops,OUT_OP1_src, OUT_OP2_src,
 //outs
 Ex_mem_out_jump,Ex_mem_out_branch_inst,Ex_mem_out_RegSrc,Ex_mem_out_Mem_Write_Read,
-Ex_mem_out_RegWrite,Ex_mem_out_word_byte,Ex_mem_out_MemData,Ex_mem_out_ZF,Ex_mem_out_data_read2,Ex_mem_out_data_read3,Ex_mem_out_branch_address,Ex_mem_out_ALUOut_EXEC,Ex_mem_out_write_reg_dest,Ex_mem_out_immediate
+Ex_mem_out_RegWrite,Ex_mem_out_word_byte,Ex_mem_out_MemData,Ex_mem_out_ZF,Ex_mem_out_data_read2,Ex_mem_out_data_read3,Ex_mem_out_branch_address,Ex_mem_out_ALUOut_EXEC,Ex_mem_out_write_reg_dest,Ex_mem_out_immediate,Ex_mem_out_how_many_ops,Ex_mem_out_OP1_src,Ex_mem_out_OP2_src
 );
 
 //***MEM***//
@@ -81,6 +81,9 @@ Ex_mem_out_RegSrc,Ex_mem_out_RegWrite,Ex_mem_out_ALUOut_EXEC,Ex_mem_out_write_re
 //out
 mem_wb_out_RegSrc,mem_wb_out_RegWrite,mem_wb_out_ALUOut_EXEC,mem_wb_out_write_reg_dest,mem_wb_out_Mem_dataOut,mem_wb_out_immediate
 );
+
+forwarding_unit f1(Ex_mem_out_RegWrite, Ex_mem_out_write_reg_dest, mem_wb_out_RegWrite, mem_wb_out_write_reg_dest, OUT_rs, OUT_rt,OUT_rd,forwardA,forwardB,OUT_OP1_src, OUT_OP2_src,OUT_how_many_ops);
+
 always @(posedge clk) begin
 #1 //NEVER REMOVE THIS SHIT. THANKS. [31/12/2020 1:47 AM]
 branch_address = OUT_PC_out+(OUT_signExtenImm<<2);
@@ -100,14 +103,25 @@ case(mem_wb_out_RegSrc)
 2'b10: write_data = {mem_wb_out_immediate, 16'b0};//lui
 endcase
 //ALU sources muxes
+case(forwardA)
+2'b00: begin case (OUT_ALUsrc1)
+1'b0: ALU_op1 = 5'd0;//$0
+1'b1: ALU_op1 = OUT_data_read1;
+endcase
+end
+2'b10: ALU_op1 = Ex_mem_out_ALUOut_EXEC; //EX Hazard
+2'b01: ALU_op1 = write_data; //MEM Hazard
+endcase
+case(forwardB)
+2'b00: begin
 case (OUT_ALUsrc2)
 2'b00: ALU_op2 = OUT_data_read2; //rt||rd
 2'b01: ALU_op2 = OUT_signExtenImm; //imm
 2'b10: ALU_op2 = OUT_PC_out+4; //PC+8
 endcase
-case (OUT_ALUsrc1)
-1'b0: ALU_op1 = 5'd0;//$0
-1'b1: ALU_op1 = OUT_data_read1;
+end
+2'b10: ALU_op2 = Ex_mem_out_ALUOut_EXEC; //EX Hazard
+2'b01: ALU_op2 = write_data; //MEM Hazard
 endcase
 //Register dest mux
 case(OUT_RegDest)

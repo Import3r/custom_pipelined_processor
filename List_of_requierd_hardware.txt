@@ -66,6 +66,58 @@ addi $s4,$0,2
 000101 00000 00000 0000000000001111
 beq $0,$0,15
 
+//Test for no forwarding
+lw $t0,0($0)
+nop
+nop
+addi $t0,$t0,2
+andi $t0,$t0,2
+sll $t0,$t0,2
+srl $t0,$t0,1
+nor $t0,$t0,1
+nop
+nop
+sw $t0,0($0)
+addi $t1,$0,6
+addi $t2,$0,6
+sub $t1,$t1,$t2
+lwn $t2,$0,$t1
+nop
+nop
+addi $t3,$t2,16
+addi $t1,$0,2
+addi $t2,$0,2
+nop
+nop
+swn $t3, $t1,$t2
+lbu $t4, 7($0)
+add $t0,$t1,$t2
+or $t0,$t0,$t1
+and $t0,$t0,$t2
+
+//Test for the forwarding
+lw $t0,0($0)
+addi $t0,$t0,2
+andi $t0,$t0,2
+sll $t0,$t0,2
+srl $t0,$t0,1
+nor $t0,$t0,1
+sw $t0,0($0)
+addi $t1,$0,6
+addi $t2,$0,6
+sub $t1,$t1,$t2
+lwn $t2,$0,$t1
+addi $t3,$t2,16
+addi $t1,$0,2
+addi $t2,$0,2
+swn $t3, $t1,$t2
+lbu $t4, 7($0)
+add $t0,$t1,$t2
+or $t0,$t0,$t1
+and $t0,$t0,$t2
+
+
+
 
 
 1- branch outcome in EXE with forwarding or not?
