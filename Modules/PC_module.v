@@ -1,5 +1,5 @@
-module PC_module(clk,PC_in,PC_initial, PC_out);
-input clk;
+module PC_module(clk,PC_in,PC_initial, PC_out,PC_write);
+input clk, PC_write;
 input [31:0] PC_in,PC_initial;
 output reg [31:0] PC_out;
 reg [31:0] PC_temp,cycle;
@@ -10,7 +10,7 @@ cycle <= 1;
 end
 
 always @(posedge clk) begin
-PC_out = PC_temp;
+if (PC_write) PC_out = PC_temp;
 end
 always @(negedge clk) begin
 //if (cycle % 8 == 0) begin

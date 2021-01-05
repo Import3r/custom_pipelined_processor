@@ -1,8 +1,8 @@
-module control_unit(opcode, func, ALUop, RegWrite,branch_inst, RegDest, ALUsrc1,ALUsrc2,jump,zero,RegSrc,word_byte,Mem_Write_Read,Read_reg_2,MemData,OP1_src, OP2_src,how_many_ops);
+module control_unit(opcode, func, ALUop, RegWrite,branch_inst, RegDest, ALUsrc1,ALUsrc2,jump,zero,RegSrc,word_byte,Mem_Write_Read,Read_reg_2,MemData,OP1_src, OP2_src,how_many_ops,load_signal, store_signal);
 input [5:0] opcode, func;
 output reg [2:0] ALUop;
 output reg [1:0] RegDest, ALUsrc2,jump,branch_inst,RegSrc,Mem_Write_Read,OP1_src, OP2_src,how_many_ops;
-output reg RegWrite,ALUsrc1,zero,word_byte,Read_reg_2,MemData;
+output reg RegWrite,ALUsrc1,zero,word_byte,Read_reg_2,MemData,load_signal,store_signal;
 
 always @* begin
 Read_reg_2 = 1'b0; //rt
@@ -15,6 +15,8 @@ RegSrc = 2'b00; //alu
 MemData = 1'b0; //sw,sb
 jump = 2'b11; //default
 how_many_ops = 2'b00;
+load_signal = 1'b0;
+store_signal = 1'b0;
 
 if(opcode == 6'h3) begin
 how_many_ops = 2'b10;
@@ -39,6 +41,7 @@ RegSrc = 2'b01;
 Read_reg_2 = 1'b1; //rd
 OP1_src = 2'b00; //rs
 OP2_src = 2'b10; //rd
+load_signal = 1'b1;
 end
 else if (func == 6'h13) begin
 //swn
@@ -49,6 +52,7 @@ Read_reg_2 = 1'b1; //rd
 MemData = 1'b1; //rt 
 OP1_src = 2'b00; //rs
 OP2_src = 2'b10; //rd
+store_signal = 1'b1;
 end
 else begin
 //add,and,nor,or,slt,sltu,sll,srl,sub
@@ -129,6 +133,7 @@ ALUsrc1 = 1'b1;
 ALUsrc2 = 2'b01;
 OP1_src = 2'b00; //rs
 how_many_ops = 2'b01;
+load_signal = 1'b1;
 end
 else if(opcode == 6'hf) begin
 //lui
@@ -148,6 +153,7 @@ RegSrc = 2'b01;
 RegDest = 2'b00;
 OP1_src = 2'b00; //rs
 how_many_ops = 2'b01;
+load_signal = 1'b1;
 end
 else if(opcode == 6'he) begin
 //ori
@@ -169,6 +175,7 @@ word_byte = 1'b1;
 Mem_Write_Read = 2'b01;
 OP1_src = 2'b00; //rs
 how_many_ops = 2'b01;
+store_signal = 1'b1;
 end
 else if(opcode == 6'h2b) begin
 //sw
@@ -180,6 +187,7 @@ word_byte = 1'b0;
 Mem_Write_Read = 2'b01;
 OP1_src = 2'b00; //rs
 how_many_ops = 2'b01;
+store_signal = 1'b1;
 end
 end
 endmodule
