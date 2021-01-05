@@ -1,7 +1,7 @@
 module test_Top_pipeline(); 
 	reg [31:0]PC_VALUE_;		  
 	reg [31:0] cycle;
-	Top_pipline top(PC_VALUE_);
+	Top top(PC_VALUE_);
 	initial begin
 		PC_VALUE_ <= 228;	  
 		cycle <= 1;
@@ -15,8 +15,7 @@ $display("PC_out %d" , top.PC_4_out, " The correct value is 104");
 $display("instruction_out %h" , top.instruction_out, " The correct value is 48080000");
 $display("************ID-Decoding*************");
 $display("opcode %h" , top.opcode);
-$display("rs %d" , top.rs);
-$display("rt %d" , top.rt);
+
 $display("rd %d" , top.rd);
 $display("shamt %d" , top.shamt);
 $display("funct %d" , top.funct);
@@ -37,9 +36,6 @@ $display("Mem_Write_Read %b" , top.Mem_Write_Read);
 $display("reg_2_src %b" , top.reg_2_src);
 $display("MemData %b" , top.MemData);
 $display("************ID-RegFile*************");
-$display("data_out1 %d" , top.data_out1);
-$display("data_out2 %d" , top.data_out2);
-$display("data_out3 %d" , top.data_out3);
 $display("signExtImm %d" , top.signExtImm);
 $display("PC_4_out: %d",top.PC_4_out-4);
 $display("************ID_EX out*************");
@@ -85,11 +81,20 @@ $display("ZF %b" , top.ZF);*/
 $display("++++++++++++++++++ cycle: %d ++++++++++++++++++" , cycle);
 $display("program_counter: %d",top.program_counter);
 $display("===========================================");
-$display("$t0: %d" , top.regFile.registers_i[8], " The correct value is 2"); //s6
+/*$display("$t0: %d" , top.regFile.registers_i[8], " The correct value is 2"); //s6
 $display("$t1: %d" , top.regFile.registers_i[9], " The correct value is 2"); //s6
 $display("$t2: %d" , top.regFile.registers_i[10], " The correct value is 2"); //s6
-$display("$t3: %d" , top.regFile.registers_i[11], " The correct value is 26"); //s6
-$display("$t4: %d" , top.regFile.registers_i[12], " The correct value is 26"); //s6
+$display("$t3: %d" , top.regFile.registers_i[11], " The correct value is 26"); //s6*/
+$display("ALU_op1 %d" , top.ALU_op1);
+$display("ALU_op2 %d" , top.ALU_op2);
+$display("$t9: %d" , top.regFile.registers_i[17], " The correct value is 2"); //s6
+$display("data_out1 %d" , top.data_out1);
+$display("data_out3 %d" , top.data_out3);
+$display("rs %d" , top.rs);
+$display("rt %d" , top.rt);
+$display("jump %b" , top.jump);
+$display("branch_inst %b" , top.branch_inst);
+$display("pcSrc %d" , top.pcSrc);
 /*$display("forwardA %d" , top.forwardA);
 $display("forwardB %d" , top.forwardB);
 $display("forwardStore %d" , top.forwardStore);*/
