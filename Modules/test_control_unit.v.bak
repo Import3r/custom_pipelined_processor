@@ -1,8 +1,0 @@
-module test_control_unit();
-reg [5:0] opcode, func;
-wire [2:0] ALUop;
-wire RegWrite;
-
-
-control_unit c1(opcode, func, ALUop, RegWrite);
-endmodule

@@ -1,5 +1,0 @@
-module test_clock();
-wire clk;
-
-clock c1(clk);
-endmodule
